@@ -1,0 +1,39 @@
+.form__section {
+  margin: 3em 0;
+}
+
+[data-answer-slot='true'] {
+  border: none;
+  margin: 0;
+  padding: 0;
+  width: auto;
+  overflow: visible;
+  background: transparent;
+  /* inherit font & color from ancestor */
+  color: inherit;
+  font: inherit;
+  /* Normalize `line-height`. Cannot be changed from `normal` in Firefox 4+. */
+  line-height: normal;
+  /* Corrects font smoothing for webkit */
+  -webkit-font-smoothing: inherit;
+  -moz-osx-font-smoothing: inherit;
+  /* Corrects inability to style clickable `input` types in iOS */
+  -webkit-appearance: none;
+  /* Remove excess padding and border in Firefox 4+ */
+  display: inline-block;
+  background: #fff;
+  border: dashed 2px #fff;
+  padding: 0 0.375em;
+  margin-right: 0.375em;
+  margin-left: 0.375em;
+  margin-left: 0.75em;
+  margin-bottom: 1.5em;
+  line-height: 1.65;
+  position: relative;
+  height: 1.75em;
+  min-width: 6em;
+  text-align: center;
+  cursor: pointer;
+  -webkit-box-shadow: 1px 1px 0 0 rgba(0, 0, 0, 0.2);
+  box-shadow: 1px 1px 0 0 rgba(0, 0, 0, 0.2);
+}

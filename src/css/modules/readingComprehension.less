@@ -1,0 +1,33 @@
+/**
+ *
+ * reading-comprehension styles
+ *
+ */
+
+.reading-comprehension {
+  .readaloud {
+    &__subtitle {
+      text-align: left;
+      .rhythm(1, 1, 0);
+      margin-bottom: @base-margin / 3;
+      color: @darkBlue;
+      text-align: left;
+      text-transform: uppercase;
+      line-height: 1;
+      text-align: left;
+    }
+
+    h3 {
+      .rhythm(3, 2, 1);
+      margin-top: 0;
+      font-weight: 600;
+      color: @darkBlue;
+      text-transform: uppercase;
+      text-align: left;
+    }
+
+    p + p {
+      margin-top: @base-margin / 2;
+    }
+  }
+}

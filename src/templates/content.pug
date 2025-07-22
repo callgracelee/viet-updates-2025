@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+    package(version="3.0" xmlns="http://www.idpf.org/2007/opf" unique-identifier="bookid" prefix="rendition: http://www.idpf.org/vocab/rendition/# ibooks: http://vocabulary.itunes.apple.com/rdf/ibooks/vocabulary-extensions-1.0/ rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#")
+        metadata(xmlns:dc="http://purl.org/dc/elements/1.1/")
+            dc:title( id="title")=book.title
+            if book.identifier && book.identifier.text
+                dc:identifier( id="bookid")=book.identifier.text
+            if book.date
+                dc:date=book.date
+            else if book.modified
+                dc:date=book.modified
+            if book.type
+                dc:type=book.type
+            if book.language
+                dc:language=book.language
+            if book.publisher
+                dc:publisher= book.publisher
+            if book.creator
+                dc:creator=book.creator
+            if book.creators
+                each item in book.creators
+                    dc:creator=item.text
+            if book.cover && book.cover.src
+                meta(name="cover" content=book.cover.src.split('/').pop())/
+            if book.identifier && book.identifier.scheme
+                meta(refines="#bookid" property="identifier-type" scheme="xsd:string")=book.identifier.scheme
+            if book.modified
+                meta(property="dcterms:modified")=book.modified
+            meta(property="a11y:certifiedBy")=book.publisher
+            meta(property='schema:accessibilitySummary') This publication conforms to WCAG 2.0 Level AA.
+            meta(property='schema:accessMode') textual
+            meta(property='schema:accessMode') visual
+            meta(property='schema:accessModeSufficient') textual
+            meta(property='schema:accessModeSufficient') visual
+            meta(property='schema:accessModeSufficient') auditory
+            meta(property='schema:accessibilityFeature') structuralNavigation
+            meta(property='schema:accessibilityFeature') alternativeText
+            meta(property='schema:accessibilityFeature') longDescription
+            meta(property='schema:accessibilityAPI') ARIA
+            meta(property='schema:accessibilityControl') fullKeyboardControl
+            meta(property='schema:accessibilityControl') fullMouseControl
+            meta(property='schema:accessibilityControl') fullTouchControl
+            meta(property='schema:accessibilityHazard') noFlashingHazard
+            meta(property='schema:accessibilityHazard') noSoundHazard
+            meta(property='schema:accessibilityHazard') noMotionSimulationHazard
+        manifest
+            each asset in assets
+                if asset.manifest.properties
+                    item(id=asset.id href=asset.href media-type=asset.manifest['media-type'] properties=asset.manifest.properties.join(' '))/
+                else
+                    item(id=asset.id href=asset.href media-type=asset.manifest['media-type'])/
+        spine
+            - var skipCount = 0;
+            each page in pages
+                if skipCount > 0
+                    - skipCount--;
+                else
+                    if page.template === "CombinedListeningComprehension" && page.data.exercises && Array.isArray(page.data.exercises) && page.data.exercises.length > 0 && page.data.exercises[0].choices && Array.isArray(page.data.exercises[0].choices) && page.data.exercises[0].choices.length > 0
+                        itemref(idref=page.id)/
+                        - skipCount = 2;
+                    else
+                        if page.template === "CombinedListeningComprehension"
+                        else if page.spine && page.spine.linear
+                            itemref(idref=page.id linear=page.spine.linear)/
+                        else
+                            itemref(idref=page.id)/

@@ -1,0 +1,84 @@
+/**
+ *
+ * vocabulary
+ *
+ */
+
+.vocabulary {
+  &__row {
+    .clearfix;
+    .no-break-inside;
+    // background-color: @lightBlue;
+    background-image: linear-gradient(@lightBlue, @lightBlue);
+    padding: @base-margin;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    transition: 100ms background ease;
+    will-change: background;
+
+    &[data-playing='true'] {
+      background-color: rgba(spin(@darkBlue, 30), 5%);
+    }
+
+    & + .vocabulary__row {
+      margin-top: @base-margin / 2;
+    }
+
+    p {
+      background: transparent;
+      color: @darkBlue;
+      .w-90;
+      float: left;
+
+      dfn {
+        font-weight: bold;
+        font-style: normal;
+      }
+    }
+  }
+
+  &__playIcon {
+    display: none;
+  }
+
+  [data-js='true'] & {
+    audio {
+      display: none;
+    }
+    .vocabulary__playIcon {
+      float: left;
+      display: block;
+      content: '';
+      position: relative;
+      height: 2.5em;
+      width: 2.5em;
+      margin-left: 0.15em;
+      border-radius: 50%;
+      border: 0.15em solid @darkBlue;
+      background-color: transparent;
+      justify-self: flex-end;
+      transition: 100ms background ease;
+      will-change: background;
+
+      &:after {
+        display: inline-block;
+        content: '';
+        vertical-align: middle;
+        padding: 0;
+        margin: 0.6em 0.75em;
+        background: transparent;
+        width: 0;
+        height: 0;
+        border-style: solid;
+        border-width: 0.7em 0 0.7em 1.25em;
+        border-color: transparent transparent transparent @orange;
+      }
+    }
+
+    [data-playing='true'] .vocabulary__playIcon {
+      background-color: @darkBlue;
+      background-image: linear-gradient(@darkBlue, @darkBlue);
+    }
+  }
+}

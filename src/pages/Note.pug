@@ -1,0 +1,41 @@
+extends ../templates/layout
+append variables
+    - var classes = 'note'
+    - var epubTypes = ['frontmatter', 'notice']
+block content
+    header
+        h1 E-Book Features
+    section.supports
+        article.supports__interactivity
+            h2 Interactivity
+            p.supports__false Your device or e-reading application does not support this feature.
+            p.supports__true Your device and e-reading application support this feature.
+            p This e-book contains interactive exercises that are only supported on certain devices and e-reading applications. Please consult with your instructor or department for a list of supported e-reading applications and devices.
+            p 
+                | If your device does not support interactivity, you can still follow along as you would with a traditional print workbook by writing down your answers for each exercise and referring to the 
+                a(href="zAnswers.xhtml") 
+                    img(src="../media/key-icon.svg" alt="key icon" style="vertical-align:middle;")/
+                    span  answer key
+                |  at the end of this e-book.
+        article.supports__contenteditable
+            h2 Typing Questions
+            p.supports__false Your device or e-reading application does not support this feature.
+            p.supports__true Your device and e-reading application support this feature.
+            p This e-book contains interactive typing questions that are only supported on certain devices and e-reading applications. 
+            p 
+                strong There are known issues with using this feature in page-turn view. It is highly recommended that you change the settings in your e-reading application to display the book in scrolling view.
+            p If you are unable to use this feature for any reason, or your device does not have a physical or virtual keyboard, you can still follow along as you would with a traditional print workbook by writing down your answers for each exercise and referring to the 
+                a(href="zAnswers.xhtml") 
+                    img(src="../media/key-icon.svg" alt="key icon" style="vertical-align:middle;")/
+                    span  answer key
+                |  at the end of this e-book.
+        article.supports__storage
+            h2 Storage
+            p.supports__false Your device or e-reading application does not support this feature.
+            p.supports__true Your device and e-reading application support this feature.
+            p This e-book will store your responses to interactive exercises locally on your device. This feature is only available in supported reading apps and using supported devices. The data is not transferrable to other devices or other reading apps on your device. It is not permanent and may be removed at any time by other apps or processes on your device.
+            p Use the button below to completely clear all data created by this e-book. You may still see old responses after clicking this button. Close out of the book and re-open it.
+            p If your device does not support storage, the button below will be disabled.
+            button(data-clear-storage="true" disabled="disabled") Clear Data
+append scripts
+    script(src="../scripts/featureCheck.js")/

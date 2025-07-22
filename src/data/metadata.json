@@ -1,0 +1,24 @@
+{
+  "name": "vietnamese-south-1-25",
+  "title": "Uống nước nhớ nguồn 1",
+  "language": "en-US",
+  "subtitle": "Student's Manual",
+  "cover": {
+    "src": "media/VI-v1S-cover-FINAL-150dpi.jpg",
+    "description": "a book cover"
+  },
+  "branding": {
+    "src": "media/FSI-Compass_Logo_Color_SM_WEB_JPEG.jpg",
+    "description": "FSI Logo"
+  },
+  "creators": [
+    { "text": "Department of State" },
+    { "text": "NFATC" },
+    { "text": "Foreign Service Institute" },
+    { "text": "School of Language Studies" },
+    { "text": "Vietnamese Section" }
+  ],
+  "type": "education",
+  "publisher": "FSI/AV Digital Publishing Department",
+  "rights": "© 2019 FSI/AV Digital Publishing Department"
+}

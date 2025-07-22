@@ -1,0 +1,18 @@
+extends ../templates/layout
+append variables
+    - var classes = 'titlepage'
+    - var epubTypes = ['frontmatter', 'titlepage']
+block content
+    header.titlepage__header
+        h1=book.title
+        h2 STUDENT’S MANUAL
+    section.titlepage__author
+        h3 SCHOOL OF LANGUAGE STUDIES
+        p
+            | East Asian &amp; Pacific Languages
+            br
+            | Vietnamese Section
+    footer.titlepage__footer
+        p.titlepage__usageNotice INTERNAL USE ONLY
+        p.titlepage__dateVersion JUNE 2024 - VERSION 1S
+        img(src="../media/DoS_logo.jpg" alt="Department of State logo")

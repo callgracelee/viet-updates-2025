@@ -1,0 +1,19 @@
+extends ../templates/layout
+append variables
+    - var classes = 'listening'
+    - var heading1 = '' || title
+    - var questionIncrement = 0
+    - var quizId = 'L' + lessonId + 'listening' + title.split(' ')[2]
+
+block content
+    header(data-lesson=lessonNumberTitle)
+        h1=heading1
+    +quiz(quizId)
+        each exercise in exercises
+            +exercise(exercise)
+        button(data-reset-all="true" disabled="disabled") Reset Exercises
+append scripts
+    script(src="../scripts/polyfills.js")/
+    script(src="../scripts/jsSupports.js")/
+    script(src="../scripts/listeningPlayer.js")/
+    script(src="../scripts/quiz.js")/

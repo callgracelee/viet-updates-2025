@@ -1,0 +1,122 @@
+/**
+ *
+ * global styles
+ *
+ */
+
+.btn-reset {
+  border: none;
+  margin: 0;
+  padding: 0;
+  width: auto;
+  overflow: visible;
+
+  background: transparent;
+
+  /* inherit font & color from ancestor */
+  color: inherit;
+  font: inherit;
+
+  /* Normalize `line-height`. Cannot be changed from `normal` in Firefox 4+. */
+  line-height: normal;
+
+  /* Corrects font smoothing for webkit */
+  -webkit-font-smoothing: inherit;
+  -moz-osx-font-smoothing: inherit;
+
+  /* Corrects inability to style clickable `input` types in iOS */
+  -webkit-appearance: none;
+
+  /* Remove excess padding and border in Firefox 4+ */
+  &::-moz-focus-inner {
+    border: 0;
+    padding: 0;
+  }
+}
+
+.sr-only {
+  font-size: 0;
+}
+
+.clearfix {
+  overflow: auto;
+  zoom: 1;
+}
+
+h1 {
+  .rhythm(3, 0, 0);
+  text-transform: uppercase;
+  line-height: 1.5;
+  .align-center;
+  font-weight: 600;
+
+  &:before {
+    content: '';
+    display: block;
+    .w-30;
+    height: @base-margin / 4;
+    margin: @base-margin / 2 auto;
+    background: @darkBlue;
+  }
+}
+
+h2 {
+  .rhythm(1, 0, 2);
+  text-transform: uppercase;
+  .align-center;
+}
+
+h3 {
+  .align-center;
+}
+
+p {
+  .no-indent;
+}
+
+header {
+  .align-center; // center the image and headings
+  margin-top: @base-margin * 2;
+  &:before {
+    content: attr(data-lesson);
+    display: block;
+    text-transform: uppercase;
+    margin-bottom: @base-margin * -0.5;
+  }
+}
+
+.linkButton {
+  display: block;
+  text-decoration: none;
+  text-align: center;
+  margin-top: @base-margin / 2;
+  .w-90;
+  background-color: darken(@orange, 5%);
+  background-image: linear-gradient(darken(@orange, 5%), darken(@orange, 5%));
+  color: @white !important;
+  padding: @base-margin / 2;
+  font-size: 1em;
+  font-weight: bold;
+  border-radius: 0.15em;
+  cursor: pointer;
+}
+
+.fullWidthButton {
+  .btn-reset;
+  width: 100%;
+  background-color: spin(@orange, -20%);
+  background-image: linear-gradient(spin(@orange, -20%), spin(@orange, -20%));
+  color: @white;
+  padding: @base-margin / 2;
+  border: 2px solid @white;
+  font-size: 1em;
+  font-weight: bold;
+  border-radius: 0.25em;
+  cursor: pointer;
+
+  &[disabled] {
+    background-color: lighten(desaturate(@orange, 100%), 40%);
+    border-color: transparent;
+    cursor: initial;
+  }
+}

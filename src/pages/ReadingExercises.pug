@@ -1,0 +1,27 @@
+extends ../templates/layout
+append variables
+    - var heading1 = 'Đọc hiểu'
+    - var classes = 'reading-exercises'
+    - var questionIncrement = 0
+    - var sections = [{id: 'reading-comprehension', title: 'Reading Comprehension'}, {id: 'vocabulary', title: 'Vocabulary'}, {id: 'structure', title: 'Structure'}, {id:'listening-activities', title: 'Listening Activities'}]
+    - var quizId = 'L' + lessonId + 'reading'
+
+block content
+    header.reading-exercises__header(data-lesson=lessonNumberTitle)
+        h1=heading1
+        h2 Reading Exercises
+    +quiz(quizId)
+        each section in sections
+            if readingExercises.filter(exercise => exercise.section === section.id).length > 0
+                section.quiz__section
+                    header.quiz__subheader
+                        h3=section.title
+                        each exercise in readingExercises.filter(exercise => exercise.section === section.id)
+                            +exercise(exercise)
+        br                    
+        button(data-reset-all="true" disabled="disabled") Reset Exercises
+append scripts
+    script(src="../scripts/polyfills.js")/
+    script(src="../scripts/jsSupports.js")/
+    script(src="../scripts/quiz.js")/
+    script(src="../scripts/listeningPlayer.js")/

@@ -1,0 +1,21 @@
+include ./variables
+block variables
+include ./mixins
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+html(xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops" xml:lang=language lang=language)
+  head
+    meta(charset='utf-8')
+    title=pageTitle
+    link(type='text/css', href='../css/styles.css', rel='stylesheet')/
+    block head
+  body(id=id, data-js="false")
+    if roles && roles.length > 0 && labelledby
+      section(class=['page'].concat(classes).join(' ') role=roles.join(' ') aria-labelledby=labelledby epub:type=epubTypes.join(' '))
+        block content
+    else if roles && roles.length > 0
+      section(class=['page'].concat(classes).join(' ') role=roles.join(' ') epub:type=epubTypes.join(' '))
+        block content
+    else
+      section(class=['page'].concat(classes).join(' ') epub:type=epubTypes.join(' '))
+        block content
+    block scripts

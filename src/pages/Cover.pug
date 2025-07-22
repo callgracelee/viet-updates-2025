@@ -1,0 +1,7 @@
+extends ../templates/layout
+append variables
+    - var epubTypes = ['frontmatter']
+block content
+    svg(role="img" style="height: 95vh; width: 95vw" xmlns="http://www.w3.org/2000/svg" height="98%" preserveAspectRatio="xMidYMid meet" version="1.1" width="100%" xmlns:xlink="http://www.w3.org/1999/xlink" epub:type="cover")
+        text#coverText.sr-only #{subtitle ? title + ': ' + subtitle : title}
+        image(height="100%" width="100%" xlink:href="../" + book.cover.src)/

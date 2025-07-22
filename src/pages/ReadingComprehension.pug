@@ -1,0 +1,19 @@
+extends ../templates/layout
+append variables
+    - var heading1 = 'Đọc hiểu'
+    - var classes = 'reading-comprehension'
+    - var quizId = 'L' + lessonId + 'reading-comprehension'
+
+block content
+    header(data-lesson=lessonNumberTitle)
+        h1(lang='vi', xml:lang='vi')=heading1
+        h2 Reading Comprehension
+    each readaloud in readalouds
+        - var href = '../media/Lesson' + lessonId + '/L' + lessonId + 'reading' + readaloud.id + 's.mp3'
+        - var title1= 'Bài đọc ' + readaloud.id + ' (Text ' + readaloud.id + '):'
+            +readAloud(href, title1, readaloud.title)
+                | !{readaloud.html}
+append scripts
+    script(src="../scripts/polyfills.js")/
+    script(src="../scripts/jsSupports.js")/
+    script(src="../scripts/readaloudPlayer.js")/

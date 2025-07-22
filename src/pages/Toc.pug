@@ -1,0 +1,21 @@
+extends ../templates/layout
+append variables
+    - var epubTypes = ['frontmatter']
+    - var classes='toc'
+block content
+    h1=title
+    nav(role='doc-toc' epub:type="toc")
+        ol
+            each page in pages.filter(p => p.type === 'frontmatter' && p.data && p.data.title)
+                li
+                    a(href=page.id)=page.data.title
+            each page in pages.filter(p => p.template === 'LessonTitlePage')
+                li
+                    a(href=page.id) Bài #{page.data.lessonId}: #{page.data.lessonTitle}
+                    ol
+                        each section in page.data.sections
+                            li 
+                                a(href=section.href)=section.title
+            each page in pages.filter(p => p.type === 'backmatter' && p.template !== 'Dialogue' && p.title)
+                li
+                    a(href=page.id)=page.title

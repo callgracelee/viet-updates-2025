@@ -1,0 +1,49 @@
+[
+  {
+    "id": "a000_cover.xhtml",
+    "template": "Cover",
+    "type": "frontmatter",
+    "data": {}
+  },
+  {
+    "id": "a001_title.xhtml",
+    "template": "Titlepage",
+    "type": "frontmatter",
+    "data": {}
+  },
+  {
+    "id": "a002_about.xhtml",
+    "type": "frontmatter",
+    "template": "About",
+    "data": {
+      "title": "About FSI"
+    }
+  },
+  {
+    "id": "a003_toc.xhtml",
+    "type": "frontmatter",
+    "template": "Toc",
+    "data": {
+      "title": "Table of Contents"
+    },
+    "manifest": {
+      "properties": ["nav"]
+    }
+  },
+  {
+    "id": "a004_acknowledgements.xhtml",
+    "type": "frontmatter",
+    "template": "Acknowledgements",
+    "data": {
+      "title": "Acknowledgements"
+    }
+  },
+  {
+    "id": "a005_note.xhtml",
+    "type": "frontmatter",
+    "template": "Note",
+    "data": {
+      "title": "E-Book Features"
+    }
+  }
+]

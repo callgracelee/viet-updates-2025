@@ -1,0 +1,46 @@
+{
+  "name": "page-builder-frontend",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@material-ui/core": "^4.2.1",
+    "@material-ui/icons": "^4.2.1",
+    "apollo-boost": "^0.4.4",
+    "apollo-link": "^1.2.13",
+    "apollo-link-http": "^1.5.16",
+    "apollo-link-retry": "^2.2.15",
+    "graphql": "^14.5.4",
+    "lodash": "^4.17.15",
+    "omit-deep-lodash": "^1.1.4",
+    "react": "^16.8.6",
+    "react-apollo-hooks": "^0.5.0",
+    "react-beautiful-dnd": "^11.0.5",
+    "react-dom": "^16.8.6",
+    "react-router-dom": "^5.0.1",
+    "react-scripts": "3.0.1",
+    "showdown": "^1.9.0",
+    "styled-components": "^4.3.2",
+    "typeface-roboto": "^0.0.75"
+  },
+  "scripts": {
+    "start": "react-scripts --openssl-legacy-provider start",
+    "build": "react-scripts --openssl-legacy-provider build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}

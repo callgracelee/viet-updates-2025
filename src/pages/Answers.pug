@@ -1,0 +1,56 @@
+extends ../templates/layout
+append variables
+    - var classes = 'answers'
+    - var epubTypes = ['backmatter']
+    - var sections = [{id: 'reading-comprehension', title: 'Reading Comprehension'}, {id: 'vocabulary', title: 'Vocabulary'}, {id: 'structure', title: 'Structure'}, {id:'listening-activities', title: 'Listening Activities'}]
+    - var pageTitle = title
+block content
+    header.reading-exercises__header
+        h1 Answer Key
+        each lesson in lessons
+            if lesson.listening1.length || lesson.listening2.length || lesson.reading2.length
+                section
+                    h2=lesson.title
+                    if lesson.listening1.length
+                        h3 Listening Comprehension 1
+                        each question, i in lesson.listening1
+                            article
+                                h4(id=question.id)
+                                    | #{question.title || `${i + 1}`} 
+                                    a(href=question.href + '#' + question.id) Go to exercise →
+                                ul(epub:type="answers")
+                                    each answer in question.answers
+                                        li(epub:type="answer")=answer
+                    if lesson.listening2.length
+                        h3 Listening Comprehension 2
+                        each question, i in lesson.listening2
+                            article
+                                h4(id=question.id)
+                                    | #{question.title || `${i + 1}`} 
+                                    a(href=question.href + '#' + question.id) Go to exercise →
+                                ul(epub:type="answers")
+                                    each answer in question.answers
+                                        li(epub:type="answer")=answer
+                    if lesson.reading2.length
+                        h3 Reading Exercises
+                        each s in sections
+                           
+                            h4=s.type
+                            each question, i in lesson.reading2.filter(exercise => exercise.section === s.id)
+                                article
+                                    if question.type == "compound-words"
+                                        h4(id=question.id)
+                                            | #{question.title || `${i + 1}`} 
+                                            a(href=question.href + '#' + question.id) Go to exercise →
+                                        ul(epub:type="answers")
+                                            each answer in question.answers
+                                              - let formattedAnswer = answer.split(",").join(", ")
+                                              li(epub:type="answer")= formattedAnswer
+                                    else  
+                                        h4(id=question.id) 
+                                            | #{question.title || `${i + 1}`} 
+                                            a(href=question.href + '#' + question.id) Go to exercise →
+                                        ul(epub:type="answers")
+                                            each answer in question.answers
+                                                li(epub:type="answer")=answer 
+          

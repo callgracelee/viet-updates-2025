@@ -1,0 +1,401 @@
+mixin quiz(key)
+    section.quiz(data-quiz=key epub:type="assessment")
+        block
+
+mixin listeningPlayer(filepath)
+    .audioPlayer(data-audio-player="true")
+        audio(controls="controls")
+            source(src=filepath type='audio/mpeg')
+            p Your device or browser does not support the audio tag.
+        .audioPlayer__customPlayer
+            button.audioPlayer__playButton(data-audio-play-button="true" title='Play')
+            .audioPlayer__progressBar(data-audio-progress-bar="true")
+                .audioPlayer__progressBarLine
+                    button.audioPlayer__progressBarHandle(data-audio-progress-bar-handle="true" title="Seek")
+            .audioPlayer__time
+                span(data-audio-time="true") -00:00
+            button.audioPlayer__speedToggle(data-audio-speed-button="true" title="Toggle Playback Speed")
+
+mixin exerciseControls
+    .exercise__controls
+        button(data-control="true" data-validate="true" data-validate-control="true" title="Check") Check
+        button(data-control="true" data-reset-control="true" data-validate="true" title="Reset") Reset
+
+mixin readAloud(filepath, title1, title2, link)
+    .readaloud(data-readaloud-player="true")
+        audio(controls="controls")
+            source(src=filepath type='audio/mpeg')
+            p Your device or browser does not support the audio tag. 
+        header.readaloud__header
+            p.readaloud__subtitle(lang='vi' xml:lang='vi')=title1
+            h3(lang='vi' xml:lang='vi')=title2
+        .readaloud__instructions
+            p Read along with the audio.
+        .readaloud__controls
+            button.readaloud__playButton(
+                data-playing='false',
+                data-pressed="false",
+                title='Play/Pause Button',
+                role='button',
+                aria-label='togglePlay')
+            button.readaloud__stopButton(
+                data-pressed="false",
+                title='Stop Button',
+                role='button',
+                aria-label='stop')
+            button.readaloud__speedToggle(
+                data-pressed="true",
+                data-value=".75",
+                title='Toggle Slow',
+                role='button',
+                aria-label='slow')
+        
+            button.readaloud__shadowButton(
+                data-pressed="false",
+                title="Shadow Button",
+                role="button",
+                aria-label="shadow")
+    
+            button.readaloud__loopButton(
+                data-pressed="false",
+                title="Loop Button",
+                role="button",
+                aria-label="loop")
+        .readaloud__text
+            block
+
+mixin exerciseHeader(heading, resourceLinks, section, questionIncrement)
+    .exercise__header
+        if heading
+            h2.exercise-letter(role = 'heading')=heading
+            aside.exercise__links
+                if Object.values(resourceLinks).some(v => v)
+                    if resourceLinks.dialogue1
+                        a(href='zL' + lessonId + '_dialogue1.xhtml')
+                            img(src="../media/book-icon.svg" alt="book icon")/
+                    if resourceLinks.dialogue2
+                        a(href='zL' + lessonId + '_dialogue2.xhtml')
+                            img(src="../media/book-icon.svg" alt="book icon")/
+                    if resourceLinks.reading
+                        a(href='L' + lessonId + '_004_reading1.xhtml')
+                            img(src="../media/book-icon.svg" alt="book icon")/
+                a(data-show-answer-link="true" href=`zAnswers.xhtml#${quizId}${section ? '-' + section : ''}-${heading || questionIncrement}`)
+                    img(src="../media/key-icon.svg" alt="key icon")/
+
+mixin answerSlot
+    button(data-answer-slot="true" title="Answer Slot")
+
+mixin exercise({title, type, answer, choices, instructions, prompt, resourceLinks, audioPlayer, youtubeLink, fillInPreviewArea, compoundWordsHtml, trueLabel, falseLabel, section})
+    - var key = 'q' + ++questionIncrement
+    - var dialogueAudioHref = '../media/Lesson' + lessonId + '/L' + lessonId + audioPlayer + 's.mp3'
+    if type !== "write-in" && type !== "select-one" && type !== "select-many" && type !== "compound-words" && type !=="true-or-false" && type !== "group-multiple-choice" && type !== "multi-fill-in-the-blank"
+        .exercise.instruction-block(id=`${quizId}${section ? '-' + section : ''}-${title || questionIncrement}` data-answer=answer data-key=key data-type=type epub:type=exerciseEpubType)
+            +exerciseHeader(title, resourceLinks, section, questionIncrement)
+            if instructions
+                .exercise__instructions
+                    p=instructions
+            if audioPlayer
+                +listeningPlayer(dialogueAudioHref)
+            if youtubeLink
+                .exercise__youtube
+                    a(href=youtubeLink, target="_blank")= youtubeLink
+             
+            if prompt
+                .exercise__prompt
+                    p=prompt       
+            case type
+                when 'multiple-choice'
+                    - var exerciseEpubType = 'multiple-choice-problem'
+                    .exercise__inputs
+                        each choice in choices
+                            if choice.img
+                                button(data-input="true")
+                                    img(src="../" + choice.img alt=choice.text)/
+                            else
+                                button(data-input="true")=choice.text
+                        div.exercise-marginBottom         
+                when 'select-many-true-or-false'
+                    - var exerciseEpubType = 'multiple-choice-problem'
+                    each choice, index in choices
+                        .exercise__row
+                            p= `${index + 1}. ${choice.text}`
+                            .exercise__inputs
+                                button(data-input="true")=trueLabel
+                                button(data-input="true")=falseLabel
+                when 'word-order'
+                    - var exerciseEpubType = 'fill-in-the-blank-problem'
+                    .exercise__previewArea
+                        p
+                            each choice in choices
+                                +answerSlot
+                    .margin-top-1            
+                    .exercise__inputs
+                        each choice in choices
+                            button(data-input="true")=choice.text
+                  
+                when 'fill-in-the-blank'
+                    - var exerciseEpubType = 'fill-in-the-blank-problem'
+                    .exercise__previewArea
+                        .exercise__answerSlotGroup !{fillInPreviewArea.html}
+                    .exercise__inputs
+                        each choice in choices
+                            button(data-input="true")=choice.text   
+                when ''
+                    .margin-top-m 
+                    each choice in choices
+                        if choice.subText
+                            p.bold.margin-top-1= `${choice.subText}:`
+                           
+                        p= choice.text              
+                default
+                    p That question type does not exist.
+            if type != ''
+                +exerciseControls
+            
+    if type == "write-in"
+        .exercise.instruction-block(data-type=type id=`${quizId}${section ? '-' + section : ''}-${title || questionIncrement}`)
+            +exerciseHeader(title, resourceLinks, section, questionIncrement)
+            if instructions
+                .exercise__instructions
+                    p=instructions
+            if audioPlayer
+                +listeningPlayer(dialogueAudioHref)
+            if youtubeLink
+                .exercise__youtube
+                    a(href=youtubeLink, target="_blank")= youtubeLink
+            if prompt
+                .exercise__prompt
+                    p=prompt
+        - var exerciseEpubType = 'general-problem'
+        each choice, index in choices
+            - var key = 'q' + ++questionIncrement
+            .exercise(data-answer=choice.answer data-key=key data-type=type epub:type=exerciseEpubType)
+                .exercise__prompt
+                    if choice.subText
+                        p.bold.margin-top-1= choice.subText
+                        div.exercise-marginBottom-1
+                    p= `${index + 1}. ${choice.text}`
+                .exercise__inputArea
+                    .exercise__textarea(data-input="true" contenteditable="true")
+                .exercise__validateMessageArea
+                    div(data-validate-message="true")
+                        i Suggested Answer:      
+                +exerciseControls 
+        div.exercise-marginBottom
+    if type == "multi-fill-in-the-blank"
+        .exercise.instruction-block(data-type=type id=`${quizId}${section ? '-' + section : ''}-${title || questionIncrement}`)
+            +exerciseHeader(title, resourceLinks, section, questionIncrement)
+            if instructions
+                .exercise__instructions
+                    p=instructions
+            if audioPlayer
+                +listeningPlayer(dialogueAudioHref)
+            if youtubeLink
+                .exercise__youtube
+                    a(href=youtubeLink, target="_blank")= youtubeLink
+            if prompt
+                .exercise__prompt
+                    p=prompt
+        - var exerciseEpubType = 'fill-in-the-blank-problem'
+        each choice, index in choices
+            - var key = 'q' + ++questionIncrement
+            if index === 0 
+                .exercise(data-answer=choice.answer data-key=key data-type=type epub:type=exerciseEpubType)
+                    if choice.subText
+                        p.bold.margin-top-1= choice.subText
+                        div.exercise-marginBottom-1
+                    .exercise__previewArea
+                        .exercise__answerSlotGroup !{choice.html}
+                    .exercise__inputs
+                        each textChoice in choice.textChoices
+                            button(data-input="true")=textChoice   
+                    +exerciseControls 
+            else
+                .exercise(data-answer=choice.answer data-key=key data-type=type epub:type=exerciseEpubType)
+                    if choice.subText
+                        p.bold.margin-top-1= choice.subText
+                        div.exercise-marginBottom-1
+                    .exercise__previewArea
+                        .exercise__answerSlotGroup !{choice.html}
+                    .exercise__inputs
+                        each textChoice in choice.textChoices
+                            button(data-input="true")=textChoice   
+                    +exerciseControls 
+        div.exercise-marginBottom
+    if type == "select-one"
+        .exercise.instruction-block(data-type=type id=`${quizId}${section ? '-' + section : ''}-${title || questionIncrement}`)
+            +exerciseHeader(title, resourceLinks, section, questionIncrement)
+            if instructions
+                .exercise__instructions
+                    p=instructions
+            if audioPlayer
+                +listeningPlayer(dialogueAudioHref)
+            if youtubeLink
+                .exercise__youtube
+                    a(href=youtubeLink, target="_blank")= youtubeLink
+            if prompt
+                .exercise__prompt
+                    p=prompt
+        - var exerciseEpubType = 'multiple-choice-problem'
+        each choice, index in choices
+            - var key = 'q' + ++questionIncrement
+            //- - var concatenatedString = key + index
+            if index === 0 
+                .exercise(data-answer=choice.answer data-key=key data-type=type epub:type=exerciseEpubType)
+                    .exercise__row.reading-exercise__row
+                        p.exercise__prompt= `${index+ 1}. ${choice.text}`
+                    .exercise__inputs
+                        if choice.textChoices
+                            each textChoice in choice.textChoices
+                                button.radio-btn(data-input="true")=textChoice   
+                    +exerciseControls 
+            else
+                .exercise(data-answer=choice.answer data-key=key data-type=type epub:type=exerciseEpubType)
+                    .exercise__row
+                        p.exercise__prompt= `${index+ 1}. ${choice.text}`
+                    .exercise__inputs
+                        if choice.textChoices
+                            each textChoice in choice.textChoices
+                                button.radio-btn(data-input="true")=textChoice   
+                    +exerciseControls 
+        div.exercise-marginBottom   
+    if type == "select-many"
+        .exercise.instruction-block(data-type=type id=`${quizId}${section ? '-' + section : ''}-${title || questionIncrement}`)
+            +exerciseHeader(title, resourceLinks, section, questionIncrement)
+            if instructions
+                .exercise__instructions
+                    p=instructions
+            if audioPlayer
+                +listeningPlayer(dialogueAudioHref)
+            if youtubeLink
+                .exercise__youtube
+                    a(href=youtubeLink, target="_blank")= youtubeLink
+            if prompt
+                .exercise__prompt
+                    p=prompt
+        - var exerciseEpubType = 'multiple-choice-problem'
+        each choice, index in choices
+            - var key = 'q' + ++questionIncrement
+            //- - var concatenatedString = key + index
+            if index === 0 
+                .exercise(data-answer=choice.answer data-key=key data-type=type epub:type=exerciseEpubType)
+                    .exercise__row.reading-exercise__row
+                        p.exercise__prompt= `${index+ 1}. ${choice.text}`
+                    .exercise__inputs
+                        if choice.textChoices
+                            each textChoice in choice.textChoices
+                                button.radio-btn(data-input="true")=textChoice   
+                    +exerciseControls 
+            else
+                .exercise(data-answer=choice.answer data-key=key data-type=type epub:type=exerciseEpubType)
+                    .exercise__row
+                        p.exercise__prompt= `${index+ 1}. ${choice.text}`
+                    .exercise__inputs
+                        if choice.textChoices
+                            each textChoice in choice.textChoices
+                                button.radio-btn(data-input="true")=textChoice   
+                    +exerciseControls 
+        div.exercise-marginBottom-1  
+    if type == "group-multiple-choice"
+        .exercise.instruction-block(data-type=type id=`${quizId}${section ? '-' + section : ''}-${title || questionIncrement}`)
+            +exerciseHeader(title, resourceLinks, section, questionIncrement)
+            if instructions
+                .exercise__instructions
+                    p=instructions
+            if audioPlayer
+                +listeningPlayer(dialogueAudioHref)
+            if prompt
+                .exercise__prompt
+                    p=prompt
+        - var exerciseEpubType = 'multiple-choice-problem'
+        each choice, index in choices
+            - var key = 'q' + ++questionIncrement
+            if index === 0 
+                .exercise(data-answer=choice.answer data-key=key data-type=type epub:type=exerciseEpubType)
+                    .exercise__row.reading-exercise__row
+                        p.exercise__prompt= `${index+ 1}. ${choice.text}`
+                    .exercise__inputs
+                        if choice.textChoices
+                            each textChoice in choice.textChoices
+                                button(data-input="true")=textChoice   
+                    +exerciseControls 
+            else
+                .exercise(data-answer=choice.answer data-key=key data-type=type epub:type=exerciseEpubType)
+                    .exercise__row
+                        p.exercise__prompt= `${index+ 1}. ${choice.text}`
+                    .exercise__inputs
+                        if choice.textChoices
+                            each textChoice in choice.textChoices
+                                button(data-input="true")=textChoice   
+                    +exerciseControls 
+        div.exercise-marginBottom
+    if type == 'compound-words'
+        .exercise.exercise-compoundWords(id=`${quizId}${section ? '-' + section : ''}-${title || questionIncrement}`)
+            +exerciseHeader(title, resourceLinks, section, questionIncrement)
+            if instructions
+                .exercise__instructions
+                    p=instructions
+            if audioPlayer
+                +listeningPlayer(dialogueAudioHref)
+            if prompt
+                .exercise__prompt
+                    p=prompt
+        - var exerciseEpubType = 'general-problem'
+        each choice, index in choices
+            - var key = 'q' + ++questionIncrement
+            if index === 0 
+                .exercise(data-answer="" data-key=key data-type=type epub:type=exerciseEpubType)
+                    .exercise__inputArea
+                        != `${choice.html}`
+                    .exercise__status
+                        span(data-inputs-toggled="true") 0
+                        span  / 
+                        span(data-total-inputs="true") 0
+                    +exerciseControls 
+            else
+                .exercise(data-answer="" data-key=key data-type=type epub:type=exerciseEpubType)
+                    .exercise__inputArea
+                        != `${choice.html}`
+                    .exercise__status
+                        span(data-inputs-toggled="true") 0
+                        span  / 
+                        span(data-total-inputs="true") 0
+                    +exerciseControls                    
+    if type == "true-or-false"    
+        .exercise.instruction-block(data-type=type id=`${quizId}${section ? '-' + section : ''}-${title || questionIncrement}`)
+            +exerciseHeader(title, resourceLinks, section, questionIncrement)
+            if instructions
+                .exercise__instructions
+                    p=instructions
+            if audioPlayer
+                +listeningPlayer(dialogueAudioHref)
+            if youtubeLink
+                .exercise__youtube
+                    a(href=youtubeLink, target="_blank")= youtubeLink
+            if prompt
+                .exercise__prompt
+                    p=prompt
+        - var exerciseEpubType = 'multiple-choice-problem'
+        each choice, index in choices
+            - var key = 'q' + ++questionIncrement
+            if index === 0 
+                .exercise(data-answer=answer.split(',')[0] data-key=key data-type=type epub:type=exerciseEpubType)
+                    if choice.subText
+                        p.bold.margin-top-1= choice.subText
+                        div.exercise-marginBottom-1
+                    p.exercise__prompt= `${index+ 1}. ${choice.text}`
+                    .exercise__inputs
+                        button(data-input="true")=trueLabel   
+                        button(data-input="true")=falseLabel 
+                    +exerciseControls 
+            else
+                .exercise(data-answer=answer.split(',')[index] data-key=key data-type=type epub:type=exerciseEpubType)
+                    if choice.subText
+                        p.bold.margin-top-1= choice.subText
+                        div.exercise-marginBottom-1
+                    p.exercise__prompt= `${index+ 1}. ${choice.text}`
+                    .exercise__inputs
+                        button(data-input="true")=trueLabel   
+                        button(data-input="true")=falseLabel 
+                    +exerciseControls 
+        div.exercise-marginBottom

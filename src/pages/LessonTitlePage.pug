@@ -1,0 +1,28 @@
+extends ../templates/layout
+append variables
+    - var classes = 'lessonTitlepage'
+    - var heading1 = pageTitle
+    - var heading2 = lessonTitle
+    - var imgFilePath = lessonImage && lessonImage.relativePath ? "../" + lessonImage.relativePath : ''
+    - var imgDescription = lessonImageDescription
+
+block content
+    header
+        h1(lang='vi' xml:lang='vi')=heading1
+        h2(lang='vi' xml:lang='vi')=heading2
+        img(src=imgFilePath alt=imgDescription)
+    nav
+        ul
+            each link in sections
+                li(epub:type="learning-objective")
+                    a(href=link.href)=link.title
+    aside.objectives(aria-labelledby="listeningObjectives" epub:type="learning-objectives")
+        h3#listeningObjectives Listening Comprehension Objectives
+        ul
+            each objective in listeningObjectives
+                li(epub:type="learning-objective")=objective
+    aside.objectives(aria-labelledby="readingObjectives" epub:type="learning-objectives")
+        h3#readingObjectives Reading Comprehension Objectives
+        ul
+            each objective in readingObjectives
+                li(epub:type="learning-objective")=objective

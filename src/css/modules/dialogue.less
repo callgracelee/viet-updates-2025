@@ -1,0 +1,82 @@
+/**
+ *
+ * dialogue
+ *
+ */
+
+.dialogue {
+  // margin: 0 auto;
+  .w-100;
+  table-layout: auto;
+
+  h2 {
+    .rhythm(1, 0, 0);
+  }
+
+  table {
+    td {
+      border: none;
+    }
+
+    td:first-of-type {
+      font-style: italic;
+      .w-30;
+      vertical-align: top;
+    }
+  }
+
+  &__navigation {
+    .w-90;
+    margin: 0 auto;
+    .linkButton;
+
+    a {
+      display: block;
+      .align-center;
+      text-decoration: none;
+      font-weight: normal;
+      .no-break-inside;
+    }
+  }
+}
+
+[data-highlighted='true'] {
+  background-image: linear-gradient(
+    lighten(@orange, 40%),
+    lighten(@orange, 40%)
+  );
+  color: @black;
+}
+
+.answers {
+  h2 {
+    .rhythm(3, 1, 1);
+    text-transform: initial;
+    font-weight: 600;
+    .align-center;
+  }
+  h3 {
+    .rhythm(2, 1, 0);
+    text-transform: initial;
+    font-weight: 600;
+    .align-left;
+  }
+  h4 {
+    .rhythm(1, 1, 0);
+    text-transform: initial;
+    font-weight: 600;
+    .align-left;
+
+    a {
+      float: right;
+    }
+  }
+
+  ul {
+    .align-left;
+    margin-top: 0;
+  }
+  p {
+    .align-left;
+  }
+}

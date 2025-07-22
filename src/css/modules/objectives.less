@@ -1,0 +1,30 @@
+/* objectives */
+
+.objectives {
+  h3 {
+    .rhythm(2, 2, 1);
+    font-weight: bold;
+    line-height: 1.5;
+    text-transform: uppercase;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  li + li {
+    margin-top: @base-margin / 2;
+  }
+
+  ul li:before {
+    content: '';
+    display: inline-block;
+    width: 1em;
+    height: 0.75em;
+    background-color: @purple;
+    margin-right: 1em;
+    vertical-align: baseline;
+  }
+}

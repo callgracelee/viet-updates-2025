@@ -1,0 +1,21 @@
+node_modules
+.DS_Store
+build
+dist
+build.epub
+audio_import/*.zip
+backup
+# Audio files
+*.mp3
+*.wav
+*.m4a
+*.jpg
+*.png
+*.jpeg
+*.gif
+*.svg
+*.webp
+*.mp4
+*.mov
+*.avi
+src/media

@@ -1,0 +1,22 @@
+extends ../templates/layout
+append variables
+    - var classes = 'dialogue'
+    - var epubTypes = ['learning-resource']
+    - var heading1 = 'Nghe hiểu'
+    - var heading2 = 'Hội thoại ' + dialogue.id
+    - var heading3 = '(Dialogue '  + dialogue.id +  '):'
+    - var heading4 = dialogue.title
+block content
+    header(data-lesson=lessonNumberTitle)
+        h1=heading1
+        h2(lang='vi', xml:lang='vi')=heading2
+        h2=heading3
+        p
+            em=heading4
+    table
+        each line in dialogue.list
+            tr
+                td=line[0]
+                td(lang='vi', xml:lang='vi')=line[1]
+    .dialogue__navigation
+        a#returnToExercises(href=returnLink) Return to Exercises

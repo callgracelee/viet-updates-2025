@@ -1,0 +1,27 @@
+extends ../templates/layout
+append variables
+    - var heading1 = 'Từ vựng'
+    - var classes = 'vocabulary-page'
+    - var vocabList = vocabulary ? vocabulary.list : []
+
+block content
+    header(data-lesson=lessonNumberTitle)
+        h1=heading1
+        h2 Vocabulary
+    .vocabulary(role="doc-glossary" epub:type="glossary")
+        if vocabList.length
+            each vocab, i in vocabList
+                .vocabulary__row(data-playing="false", data-vocabulary-player="true", title='Play Button', role='button', aria-controls='L' + lessonId + 'V' + Number(i + 1), aria-label='play', aria-pressed="false", tabindex="0")
+                    p
+                        dfn(role="term" lang='vi' xml:lang='vi' epub:type="glossterm")=vocab[0]
+                        br
+                        | 
+                        span(role="definition" epub:type="glossdef")=vocab[1]
+                    audio(id='L' + lessonId + 'V' + Number(i + 1), controls="controls")
+                        source(src='../media/Lesson' + lessonId + '/L' + lessonId + 'V' + Number(i + 1) + '.mp3', type='audio/mpeg')
+                        p Your device or browser does not support the audio tag.
+                    .vocabulary__playIcon
+append scripts
+    script(src="../scripts/polyfills.js")/
+    script(src="../scripts/jsSupports.js")/
+    script(src="../scripts/vocabularyPlayer.js")/

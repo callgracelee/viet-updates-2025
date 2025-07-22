@@ -1,0 +1,131 @@
+/**
+ *
+ * readaloud
+ *
+ */
+
+.readaloud {
+  .no-break-inside;
+
+  [data-playhead] {
+    cursor: pointer;
+  }
+
+  & + .readaloud {
+    margin-top: @base-margin * 2;
+  }
+
+  &__instructions {
+    p {
+      font-weight: bold;
+    }
+  }
+
+  /* no-js styles */
+
+  &__controls {
+    display: none;
+  }
+
+  [data-js='true'] & {
+    audio {
+      display: none;
+    }
+    .readaloud__controls {
+      display: block;
+    }
+  }
+
+  /* normal styles */
+
+  &__controls {
+    margin: @base-margin / 2 0;
+
+    button {
+      .btn-reset;
+      vertical-align: bottom;
+      margin-right: @base-margin / 2;
+      position: relative;
+      height: 2.5em;
+      width: 2.5em;
+      border-radius: 50%;
+      border: 2px solid @darkBlue;
+      background-color: transparent;
+      cursor: pointer;
+    }
+  }
+
+  &__playButton {
+    position: relative;
+
+    &:before {
+      display: block;
+      content: '';
+      background: transparent;
+      box-sizing: border-box;
+      height: 1em;
+      width: 1em;
+      padding: 0;
+      // margin: 0 auto;
+      margin: 0 0.75em;
+      border-color: transparent transparent transparent @orange;
+      transition: 100ms all ease;
+      will-change: border-width;
+      cursor: pointer;
+
+      // play state
+      border-style: solid;
+      border-width: 0.5em 0 0.5em 1em;
+    }
+
+    &[data-pressed='true'] {
+      background-color: @darkBlue;
+    }
+
+    &[data-playing='true'] {
+      &:before {
+        margin: 0 auto;
+        border-style: double;
+        border-width: 0px 0 0px 1em;
+      }
+    }
+  }
+
+  &__stopButton {
+    position: relative;
+
+    &:before {
+      display: block;
+      content: '';
+      height: 0.75em;
+      width: 0.75em;
+      background-color: @orange;
+      margin: 0 0.75em;
+    }
+  }
+
+  &__speedToggle {
+    position: relative;
+
+    &:before {
+      display: block;
+      content: '';
+      margin: 0 auto;
+      padding: 0;
+      height: 1.5em;
+      width: 1.5em;
+      background: url('../media/snail-icon.svg') center center;
+      background-repeat: no-repeat;
+      background-size: 100%;
+    }
+
+    &[data-toggled='true'] {
+      background: @darkBlue;
+      background-image: linear-gradient(@darkBlue, @darkBlue);
+    }
+  }
+
+  &__returnButton {
+    .linkButton;
+  }
+}
