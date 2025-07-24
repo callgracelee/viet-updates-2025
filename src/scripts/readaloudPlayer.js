@@ -11,7 +11,7 @@ class TextAudioSync {
     this.textElements = Array.from(container.querySelectorAll("[data-playhead]"));
 
     this.textElements.forEach((element) => {
-      element.dataset.playhead = Math.max(0, parseFloat(element.dataset.playhead) - 0.4);
+      element.dataset.playhead = (Math.max(0, parseFloat(element.dataset.playhead) - 0.4)).toFixed(2);
     });
 
     this.state = {
@@ -61,22 +61,20 @@ class TextAudioSync {
 
   _setupAudioEvents() {
     this._timeUpdateHandler = () => {
-      if (!this.isShadowMode) {
-        this.highlightspan();
-      }
+      this.highlightspan();
     };
     if (this.audio) {
       this.audio.addEventListener("timeupdate", this._timeUpdateHandler);
       this.audio.addEventListener("ended", this._handleAudioEnd.bind(this));
     }
 
-    // Remove highlight and reset play button when audio ends
-    // this.audio.addEventListener("ended", () => {
-    //   this.textElements.forEach((span) => span.classList.remove("active"));
-    //   if (this.playPauseButton) {
-    //     this.playPauseButton.setAttribute("data-playing", true);
-    //   }
-    // });
+   // Remove highlight and reset play button when audio ends
+    this.audio.addEventListener("ended", () => {
+      this.textElements.forEach((span) => span.classList.remove("active"));
+      // if (this.playPauseButton) {
+      //   this.playPauseButton.setAttribute("data-playing", true);
+      // }
+    });
   }
 
   highlightspan() {
@@ -115,18 +113,23 @@ class TextAudioSync {
   }
 
   stop() {
-    console.log("stop is pressed");
     this.audio.pause();
-    // this.audio.currentTime = 0;
-    if (this.audio.currentTime === 0 && this.textElements.length > 0) {
-      const firstPlayhead = parseFloat(this.textElements[0].dataset.playhead);
-      this.audio.currentTime = firstPlayhead;
-    }
+    this.audio.removeEventListener("timeupdate", this._timeUpdateHandler);
     this._clearTimers();
     this._resetState();
-    this._clearHighlights();
     this._updateButtonState(false);
     this._disableSpecialModes();
+
+    // Set currentTime to 0 or firstPlayhead if you want, but do it before clearing highlights
+    // if (this.textElements.length > 0) {
+    //   const firstPlayhead = parseFloat(this.textElements[0].dataset.playhead);
+    //   this.audio.currentTime = firstPlayhead;
+    // } else {
+    //   this.audio.currentTime = 0;
+    // }
+
+    // Now clear all highlights
+    this._clearHighlights();
   }
 
   togglePlayPause() {
@@ -149,7 +152,11 @@ class TextAudioSync {
     if (this.state.isShadowMode) {
       this.shadow();
     } else {
-      console.log("else");
+      // Clear any pending shadow timers
+      if (this.timer) {
+        clearTimeout(this.timer);
+        this.timer = null;
+      }
       this._clearTimers();
       this.state.isInPauseCycle = false;
       // Restore normal highlighting
@@ -218,18 +225,20 @@ class TextAudioSync {
     } else {
       this.stop();
     }
+
   }
 
   _updateButtonState(isPlaying) {
     if (isPlaying) {
-      this.playPauseButton.setAttribute("data-playing", true);
-      this.playPauseButton.setAttribute("data-pressed", true);
+      this.playPauseButton.setAttribute("data-playing", "true");
+      this.playPauseButton.setAttribute("data-pressed", "true");
     } else {
-      this.playPauseButton.setAttribute("data-playing", false);
-      this.playPauseButton.setAttribute("data-pressed", false);
-      this.speedButton.setAttribute("data-toggled", false);
-      this.shadowButton.setAttribute("data-toggled", false);
-      this.loopButton.setAttribute("data-toggled", false);
+      console.log("update button state");
+      this.playPauseButton.setAttribute("data-playing", "false");
+      this.playPauseButton.setAttribute("data-pressed", "false");
+      this.speedButton.setAttribute("data-toggled", "false");
+      this.shadowButton.setAttribute("data-toggled", "false");
+      this.loopButton.setAttribute("data-toggled", "false");
     }
   }
 
@@ -279,27 +288,6 @@ class TextAudioSync {
     return { span, spanPlayhead, spanDuration };
   }
 
-  //   _startPlayPauseCycle(duration) {
-  //     const formattedDuration = Math.round(duration * 1000);
-  //     this._clearTimers();
-  //     this.state.isInPauseCycle = true;
-
-  //     this.state.playTimer = setTimeout(() => {
-  //       this.audio.pause();
-
-  //       this.state.pauseTimer = setTimeout(() => {
-  //         this.state.isInPauseCycle = false;
-  //         if (!this.audio.ended) {
-  //           console.log("_startPlayPauseCycle !this.audio.ended)");
-  //           this.shadow();
-  //         } else if (this.audio.ended) {
-  //           console.log("audio ended");
-  //         }
-  //       }, formattedDuration);
-  //     }, formattedDuration);
-  //   }
-  // }
-
   _startPlayPauseCycle(el, playhead, duration) {
     if (this.state.isShadowMode) {
       this._clearTimers();
@@ -326,10 +314,18 @@ class TextAudioSync {
     // const { span, spanPlayhead, spanDuration } = this.findCurrentSpan();
 
     if (el) {
-      this.textElements.forEach((span) => span.removeAttribute("data-highlighted"));
-      el.removeAttribute("data-highlighted", true);
+      this.textElements.forEach((span) => {
+        if (span !== el) {
+          span.removeAttribute("data-highlighted");
+        }
+      });
+      el.setAttribute("data-highlighted", true);
     }
     const playTimer = () => {
+      if (!this.state.isShadowMode) {
+        this.audio.removeEventListener("timeupdate", playTimer);
+        return;
+      }
       if (playhead !== null && this.audio.currentTime > playhead) {
         this.audio.pause();
         this.audio.removeEventListener("timeupdate", playTimer);

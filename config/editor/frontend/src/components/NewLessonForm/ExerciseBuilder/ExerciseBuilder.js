@@ -599,7 +599,7 @@ export default function ExerciseBuilder({
               </>
             )}
 
-            {values.type === "multi-fill-in-the-blank" && (
+            {(values.type === "multi-fill-in-the-blank" || values.type === "word-order") && (
               <>
                 <Typography variant="h5">Multi Fill-in-the-Blank (Grouped)</Typography>
                 <GroupExerciseFillInTheBlankEditor
@@ -635,7 +635,8 @@ export default function ExerciseBuilder({
               values.type !== "select-many" &&
               values.type !== "true-or-false" &&
               values.type !== "group-multiple-choice" &&
-              values.type !== "multi-fill-in-the-blank" && (
+              values.type !== "multi-fill-in-the-blank" &&
+              values.type !== "word-order" && (
                 <>
                   <Typography variant="h5">Choices/Prompts/Answers</Typography>
                   <ChoiceAnswerEditor
