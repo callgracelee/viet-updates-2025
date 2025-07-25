@@ -43,6 +43,7 @@ function New({ lessons, history, match, refetchLessons }) {
     listeningExercises2: [],
     readingExercises: [],
     readalouds: [],
+    dialogueBasedOnReading: [],
     dialogues: [],
     vocabulary: null,
   };
@@ -100,6 +101,10 @@ function New({ lessons, history, match, refetchLessons }) {
 
   const setReadalouds = (payload) => {
     setValues({ ...values, readalouds: payload });
+  };
+
+  const setDialogueBasedOnReading = (payload) => {
+    setValues({ ...values, dialogueBasedOnReading: payload });
   };
 
   const setDialogues = (payload) => {
@@ -182,6 +187,16 @@ function New({ lessons, history, match, refetchLessons }) {
         <ReadaloudEditor
           readalouds={values.readalouds}
           setReadalouds={setReadalouds}
+        />
+      </section>
+      <section className="form__section">
+        <Typography variant="h4" align="center">
+          Dialogue based on Reading
+        </Typography>
+
+        <ReadaloudEditor
+          readalouds={values.dialogueBasedOnReading || []}
+          setReadalouds={setDialogueBasedOnReading}
         />
       </section>
       <section className="form__section">

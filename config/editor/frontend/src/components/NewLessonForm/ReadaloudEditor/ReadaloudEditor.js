@@ -3,7 +3,7 @@ import ReadaloudEditorForm from './ReadaloudEditorForm';
 import ReadaloudListing from './ReadaloudListing';
 import { Button } from '@material-ui/core';
 
-export default function ReadaloudEditor({ readalouds, setReadalouds }) {
+export default function ReadaloudEditor({ readalouds = [], setReadalouds }) {
   const [currentReadaloud, setCurrentReadaloud] = useState(null);
 
   const initialState = { id: '', title: '', html: '' };

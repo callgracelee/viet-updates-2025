@@ -171,6 +171,7 @@ type Lesson{
   listeningExercises2: [Exercise]
   readingExercises: [Exercise]
   readalouds: [Readaloud]
+  dialogueBasedOnReading: [Readaloud]
   vocabulary: Vocabulary
   
 }
@@ -188,6 +189,7 @@ input LessonInput{
   listeningExercises2: [ExerciseInput]
   readingExercises: [ExerciseInput]
   readalouds: [ReadaloudInput]
+  dialogueBasedOnReading: [ReadaloudInput]
   vocabulary: VocabularyInput
 }
 

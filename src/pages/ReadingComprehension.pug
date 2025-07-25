@@ -7,10 +7,17 @@ append variables
 block content
     header(data-lesson=lessonNumberTitle)
         h1(lang='vi', xml:lang='vi')=heading1
-        h2 Reading Comprehension
-    each readaloud in readalouds
-        - var href = '../media/Lesson' + lessonId + '/L' + lessonId + 'reading' + readaloud.id + 's.mp3'
-        - var title1= 'Bài đọc ' + readaloud.id + ' (Text ' + readaloud.id + '):'
+        if title === 'Dialogue based on Reading'
+            h2 Dialogue based on Reading
+        else
+            h2 Reading Comprehension
+    if readalouds && readalouds.length
+        each readaloud in readalouds
+            - var href = '../media/Lesson' + lessonId + '/L' + lessonId + 'reading' + readaloud.id + 's.mp3'
+            if title === 'Dialogue based on Reading'
+                - var title1= 'Bài đọc ' + lessonId + ':'
+            else
+                - var title1= 'Bài đọc ' + readaloud.id + ' (Text ' + readaloud.id + '):'
             +readAloud(href, title1, readaloud.title)
                 | !{readaloud.html}
 append scripts

@@ -119,16 +119,6 @@ class TextAudioSync {
     this._resetState();
     this._updateButtonState(false);
     this._disableSpecialModes();
-
-    // Set currentTime to 0 or firstPlayhead if you want, but do it before clearing highlights
-    // if (this.textElements.length > 0) {
-    //   const firstPlayhead = parseFloat(this.textElements[0].dataset.playhead);
-    //   this.audio.currentTime = firstPlayhead;
-    // } else {
-    //   this.audio.currentTime = 0;
-    // }
-
-    // Now clear all highlights
     this._clearHighlights();
   }
 

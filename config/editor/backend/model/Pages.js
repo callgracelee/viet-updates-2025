@@ -151,6 +151,18 @@ module.exports = class PagesModel {
         },
       };
 
+      const reading3 = {
+        id: `L${lesson.lessonId}_005a_reading3.xhtml`,
+        template: "ReadingComprehension",
+        title: "Dialogue based on Reading",
+        type: "bodymatter",
+        data: {
+          lessonId: lesson.lessonId,
+          lessonTitle: lesson.lessonTitle,
+          readalouds: lesson.dialogueBasedOnReading,
+        },
+      };
+
       const vocab = {
         id: `L${lesson.lessonId}_006_vocab.xhtml`,
         title: "Vocabulary",
@@ -249,6 +261,7 @@ module.exports = class PagesModel {
         listening2,
         reading1,
         reading2,
+        reading3,
         vocab,
       ];
 

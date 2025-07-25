@@ -153,6 +153,11 @@ const GET_LESSONS = gql`
         title
         html
       }
+      dialogueBasedOnReading {
+        id
+        title
+        html
+      }
       vocabulary {
         source
         list
