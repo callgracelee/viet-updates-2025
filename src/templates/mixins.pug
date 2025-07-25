@@ -87,7 +87,7 @@ mixin answerSlot
 
 mixin exercise({title, type, answer, choices, instructions, prompt, resourceLinks, audioPlayer, youtubeLink, fillInPreviewArea, compoundWordsHtml, trueLabel, falseLabel, section})
     - var key = 'q' + ++questionIncrement
-    - var dialogueAudioHref = '../media/Lesson' + lessonId + '/L' + lessonId + audioPlayer + 's.mp3'
+    - var dialogueAudioHref = '../media/Lesson' + lessonId + '/L' + lessonId + audioPlayer + '.mp3'
     if type !== "write-in" && type !== "select-one" && type !== "select-many" && type !== "compound-words" && type !=="true-or-false" && type !== "group-multiple-choice" && type !== "multi-fill-in-the-blank"
         .exercise.instruction-block(id=`${quizId}${section ? '-' + section : ''}-${title || questionIncrement}` data-answer=answer data-key=key data-type=type epub:type=exerciseEpubType)
             +exerciseHeader(title, resourceLinks, section, questionIncrement)

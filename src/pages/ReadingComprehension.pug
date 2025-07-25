@@ -13,10 +13,12 @@ block content
             h2 Reading Comprehension
     if readalouds && readalouds.length
         each readaloud in readalouds
-            - var href = '../media/Lesson' + lessonId + '/L' + lessonId + 'reading' + readaloud.id + 's.mp3'
+            
             if title === 'Dialogue based on Reading'
-                - var title1= 'Bài đọc ' + lessonId + ':'
+                - var href = '../media/Lesson' + lessonId + '/L' + lessonId + 'dialogue' + readaloud.id + 's.mp3'
+                - var title1= 'Bài ' + lessonId + ':'
             else
+                - var href = '../media/Lesson' + lessonId + '/L' + lessonId + 'reading' + readaloud.id + 's.mp3'
                 - var title1= 'Bài đọc ' + readaloud.id + ' (Text ' + readaloud.id + '):'
             +readAloud(href, title1, readaloud.title)
                 | !{readaloud.html}
